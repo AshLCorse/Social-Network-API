@@ -4,6 +4,12 @@ const thoughtSchema = require("./Thought");
 // Schema to create Student model
 const userSchema = new Schema(
   {
+    id: {
+      type: Number,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     first: {
       type: String,
       required: true,

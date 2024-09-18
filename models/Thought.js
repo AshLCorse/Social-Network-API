@@ -1,17 +1,19 @@
-const { Schema, Types } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const thoughtSchema = new Schema(
   {
-    thoughtId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
+    id: {
+      type: Number,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
     },
     thoughtName: {
       type: String,
       required: true,
       maxlength: 50,
       minlength: 4,
-      default: "Unnamed assignment",
+      default: "Unnamed thought",
     },
     likes: {
       type: Number,
@@ -31,4 +33,6 @@ const thoughtSchema = new Schema(
   }
 );
 
-module.exports = thoughtSchema;
+const Thought = model("thought", thoughtSchema);
+
+module.exports = Thought;
