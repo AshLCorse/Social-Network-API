@@ -47,7 +47,7 @@ connection.once("open", async () => {
 
   // Add friends to the collection and await the results
   await Friend.create({
-    FriendName: "UCLA",
+    friendName: "UCLA",
     onLine: false,
     users: [...userData.map(({ _id }) => _id)],
   });

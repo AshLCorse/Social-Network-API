@@ -2,7 +2,7 @@ const { ObjectId } = require("mongoose").Types;
 const { User, Friend } = require("../models");
 
 // Aggregate function to get the number of students overall
-const headCount = async () => {
+const userCount = async () => {
   const numberOfUsers = await User.aggregate().count("userCount");
   return numberOfUsers;
 };
@@ -24,14 +24,14 @@ const grade = async (userId) =>
   ]);
 
 module.exports = {
-  // Get all students
+  // Get all users
   async getUsers(req, res) {
     try {
       const users = await User.find();
 
       const userObj = {
         users,
-        friendCount: await friendCount(),
+        userCount: await userCount(),
       };
 
       res.json(userObj);
@@ -40,7 +40,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // Get a single student
+  // Get a single user
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({
@@ -60,7 +60,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // create a new student
+  // create a new user
   async createUser(req, res) {
     try {
       const user = await User.create(req.body);
@@ -69,7 +69,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Delete a student and remove them from the course
+  // Delete a student and remove them from the friends list
   async deleteUser(req, res) {
     try {
       const user = await USer.findOneAndRemove({
