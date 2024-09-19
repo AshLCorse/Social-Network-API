@@ -1,31 +1,31 @@
 const { Schema, model } = require("mongoose");
 const thoughtSchema = require("./Thought");
 
-// Schema to create Student model
+// Schema to create User model
 const userSchema = new Schema(
   {
-    id: {
-      type: Number,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    first: {
+    username: {
       type: String,
       required: true,
       max_length: 50,
     },
-    last: {
+    email: {
       type: String,
       required: true,
       max_length: 50,
     },
-    github: {
-      type: String,
-      required: true,
-      max_length: 50,
-    },
-    thoughts: [thoughtSchema],
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Thought",
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     toJSON: {
