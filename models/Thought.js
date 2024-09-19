@@ -1,23 +1,21 @@
-const { Schema, Types } = require("mongoose");
+const { Schema, model } = require("mongoose");
+const reactionSchema = require("./Reaction");
 
+//Schema to create Thought model
 const thoughtSchema = new Schema(
   {
-    thoughtId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
-    thoughtName: {
+    username: {
       type: String,
       required: true,
-      maxlength: 50,
-      minlength: 4,
-      default: "Unnamed assignment",
     },
-    likes: {
-      type: Number,
+    thoughtText: {
+      type: String,
       required: true,
-      default: 0,
+      maxlength: 99,
+      minlength: 4,
+      default: "Unnamed thought",
     },
+    reactions: [reactionSchema],
     createdAt: {
       type: Date,
       default: Date.now,
@@ -31,4 +29,6 @@ const thoughtSchema = new Schema(
   }
 );
 
-module.exports = thoughtSchema;
+const Thought = model("thought", thoughtSchema);
+
+module.exports = Thought;

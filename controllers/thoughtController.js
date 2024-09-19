@@ -71,4 +71,27 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  async createReaction(req, res) {
+    try {
+      const thought = await Thought.findByIdAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { reactions: req.body } },
+        { new: true }
+      );
+    } catch {
+      res.status(500).json({ message: "Failed to create reaction" });
+    }
+  },
+  async deleteReaction(req, res) {
+    try {
+      const thought = await Thought.findByIdAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: req.body } },
+        { new: true }
+      );
+    } catch {
+      res.status(500).json({ message: "Failed to delete reaction" });
+    }
+  },
 };
