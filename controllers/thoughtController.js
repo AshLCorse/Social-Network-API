@@ -79,8 +79,13 @@ module.exports = {
         { $addToSet: { reactions: req.body } },
         { new: true }
       );
-    } catch {
-      res.status(500).json({ message: "Failed to create reaction" });
+      if (!thought) {
+        return res.status(404).json({ message: "no thought with that Id" });
+      }
+      res.json(thought);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Failed to create reaction!" });
     }
   },
   async deleteReaction(req, res) {
@@ -90,7 +95,12 @@ module.exports = {
         { $pull: { reactions: req.body } },
         { new: true }
       );
-    } catch {
+      if (!thought) {
+        return res.status(404).json({ message: "no thought with that Id" });
+      }
+      res.json({ message: "Reaction deleted", thought });
+    } catch (err) {
+      console.log(err);
       res.status(500).json({ message: "Failed to delete reaction" });
     }
   },

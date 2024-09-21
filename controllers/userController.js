@@ -37,7 +37,6 @@ module.exports = {
 
       res.json({
         user,
-        likes: await likes(req.params.userId),
       });
     } catch (err) {
       console.log(err);
@@ -116,22 +115,30 @@ module.exports = {
   },
   async addFriend(req, res) {
     try {
-      const user = await user.findByIdAndUpdate(
+      const user = await User.findByIdAndUpdate(
         { _id: req.params.userId },
         { $addToSet: { friends: req.params.friendId } },
         { new: true }
       );
+      if (!user) {
+        return res.status(404).json({ message: "no user with that Id" });
+      }
+      res.json({ message: "Friend added!", user });
     } catch {
       res.status(500).json({ message: "Failed to add friend" });
     }
   },
   async deleteFriend(req, res) {
     try {
-      const user = await user.findByIdAndUpdate(
+      const user = await User.findByIdAndUpdate(
         { _id: req.params.userId },
         { $pull: { friends: req.params.friendId } },
         { new: true }
       );
+      if (!user) {
+        return res.status(404).json({ message: "no user with that Id" });
+      }
+      res.json({ message: "Friend deleted!", user });
     } catch {
       res.status(500).json({ message: "Failed to delete friend" });
     }
