@@ -55,7 +55,7 @@ module.exports = {
   // Delete a student and remove them from the friends list
   async deleteUser(req, res) {
     try {
-      const user = await User.findOneAndRemove({
+      const user = await User.findOneAndDelete({
         _id: req.params.userId,
       });
 
